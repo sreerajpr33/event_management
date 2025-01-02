@@ -45,26 +45,29 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center mb-4">Register</h3>
+                    <h3 class="text-center mb-4"> Staff Register</h3>
                     <form id="registerForm" method="POST">
                         {%csrf_token%}
                         <div class="mb-3">
                             <label for="name" class="form-label">Full Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter your full name" name="name">
                         </div>
-                        <div class="mb-3">  
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email" name="Email">
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="number" class="form-control" id="phone" placeholder="Enter your password"name="phonenumber">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" placeholder="Enter your password"name="password">
                         </div>
                         <button type="submit" class="btn w-100">Register</button>
-                        <!-- <input type="submit" class="btn w-100"> -->
                     </form>
                     <div class="text-center mt-2">
-                        <p><a href="stf_reg">register as a staff</a></p>
+                        <p><a href="register">register as a user</a></p>
                         <a href="../" class="text-decoration-none text-dark">Already have an account? Login</a>
                     </div>
                 </div>
