@@ -53,7 +53,7 @@
     }
     .main-content {
       padding: 20px;
-      margin-left: 0;
+      margin-left: 5vw;
       width: 100%;
       transition: margin-left 0.3s ease;
     }
@@ -79,6 +79,13 @@
         margin-left: 0;
       }
     }
+    .form-container {
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+    .package-list {
+      max-width: 800px;
+    }
   </style>
 </head>
 <body>
@@ -93,18 +100,62 @@
       <img src="{% static 'logo.png' %}" alt="Admin Logo">
     </div>
     <a href="adm_catering"><i class="bi bi-egg-fried"></i> Catering Service</a>
-    <a href="#decorations"><i class="bi bi-brush"></i> Decorations</a>
+    <a href="adm_dec"><i class="bi bi-brush"></i> Decorations</a>
     <a href="#halls"><i class="bi bi-building"></i> Halls</a>
     <a href="#photography"><i class="bi bi-camera"></i> Photography</a>
     <a href="#view-booking"><i class="bi bi-calendar-check"></i> View Bookings</a>
     <a href="#user-details"><i class="bi bi-people"></i> User Details</a>
-    <a href="#view-staffs"><i class="bi bi-person"></i> View Staffs</a> 
+    <a href="#view-staffs"><i class="bi bi-person"></i> View Staffs</a>
     <a href="#logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
   </div>
 
-  <!-- Main Content -->
-  <div class="main-content" id="mainContent">
-    <h1 class="ms-5">Welcome to the Admin Dashboard</h1>
+  <!-- Form and Package List -->
+  <div class="main-content " id="mainContent">
+    <div class="form-container">
+      <h2>Add New Package</h2>
+      <form method="POST">
+        {%csrf_token%}
+        <div class="mb-3">
+          <label for="packageName" class="form-label">Foods</label>
+          <input type="text" class="form-control" id="packageName" placeholder="Enter food name" name="food">
+        </div>
+        <div class="mb-3">
+          <label for="packagePrice" class="form-label">Price</label>
+          <input type="number" class="form-control" id="packagePrice" placeholder="Enter price" name="price">
+        </div>
+        <div class="mb-3">
+          <label for="packageDescription" class="form-label">Description</label>
+          <textarea class="form-control" id="packageDescription" rows="3" placeholder="Enter food description" name="dis"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    <div class="package-list">
+      <h2>Added Packages</h2>
+      <div class="package-list">
+        <h2>Added Packages</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Food</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamically added packages will appear here -->
+            {% for food in foods %}
+              <tr>
+                <td>{{ food.foods }}</td>
+                <td>{{ food.dis }}</td>
+                <td>{{ food.price }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
   </div>
 
   <!-- Bootstrap Bundle JS -->

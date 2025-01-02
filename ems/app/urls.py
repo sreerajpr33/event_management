@@ -8,5 +8,8 @@ urlpatterns = [
     path('stf_home',views.staff_home),
     path('stf_reg',views.staff_reg),
     path('logout',views.logout),
+    # admin,
+    path('adm_catering',views.adm_catering),
+    path('adm_dec',views.adm_decr),
 ]
 

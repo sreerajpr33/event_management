@@ -108,7 +108,45 @@ def logout(req):
 
 #admin
 def adm_home(req):
-    return render(req,'admin/admin_home.html')
+    if 'admin' in req.session:
+        return render(req,'admin/admin_home.html')
+    else:
+        return redirect(login)
+
+def adm_catering(req):
+    if 'admin' in req.session:
+        if req.method=='POST':
+            food=req.POST['food']
+            dis=req.POST['dis']
+            price=req.POST['price']
+            food=food.lower()
+            try:
+                datas=Catering.objects.get(foods=food)
+            except:
+                data=Catering.objects.create(foods=food,dis=dis,price=price)
+                data.save()
+        foods=Catering.objects.all()
+        return render(req,'admin/cattering.html',{'foods':foods})
+    else:
+        return redirect(login)
+    
+def adm_decr(req):
+    if 'admin' in req.session:
+        if req.method=='POST':
+            img1=req.FILES['image1']
+            img2=req.FILES['image2']
+            img3=req.FILES['image3']
+            dis=req.POST['description']
+            price=req.POST['price']
+            data=Decorations.objects.create(img1=img1,img2=img2,img3=img3,dis=dis,price=price)
+            data.save()
+        datas=Decorations.objects.all()
+        return render(req,'admin/decorations.html',{'decorations':datas})
+    else:
+        return redirect(login)
+
+
+
 
 # user
 def user_home(req):
