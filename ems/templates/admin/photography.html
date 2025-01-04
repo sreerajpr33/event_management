@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #f8f9fa;
+      padding-top: 20px;
+      position: fixed;
+      height: 100%;
+      transform: translateX(-250px);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.active {
+      transform: translateX(0);
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+    }
+    .sidebar a:hover {
+      background-color: #e9ecef;
+    }
+    .sidebar a i {
+      margin-right: 10px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .main-content {
+      padding: 20px;
+      margin-left: 0;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+    }
+    .main-content.expanded {
+      margin-left: 250px;
+    }
+    .toggle-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      background-color: #f8f9fa;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .toggle-btn:focus {
+      outline: none;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Toggle Button -->
+  <button class="toggle-btn" id="toggleSidebar">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="{% static 'logo.png' %}" alt="Admin Logo">
+    </div>
+    <a href="adm_catering"><i class="bi bi-egg-fried"></i> Catering Service</a>
+    <a href="adm_dec"><i class="bi bi-brush"></i> Decorations</a>
+    <a href="adm_hall"><i class="bi bi-building"></i> Halls</a>
+    <a href="adm_photo"><i class="bi bi-camera"></i> Photography</a>
+    <a href="#view-booking"><i class="bi bi-calendar-check"></i> View Bookings</a>
+    <a href="#user-details"><i class="bi bi-people"></i> User Details</a>
+    <a href="#view-staffs"><i class="bi bi-person"></i> View Staffs</a> 
+    <a href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <h1 class="ms-5">Welcome to the Admin Dashboard</h1>
+  </div>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Sidebar Toggle Script
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+
+    toggleBtn.addEventListener('click', function () {
+      sidebar.classList.toggle('active');
+      mainContent.classList.toggle('expanded');
+    });
+  </script>
+</body>
+</html>

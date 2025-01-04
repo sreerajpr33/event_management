@@ -144,14 +144,39 @@ def adm_decr(req):
         return render(req,'admin/decorations.html',{'decorations':datas})
     else:
         return redirect(login)
+    
 
-
+def adm_halls(req):
+    if 'admin'in req.session:
+        if req.method=='POST':
+            img1=req.FILES['image1']
+            img2=req.FILES['image2']
+            img3=req.FILES['image3']
+            name=req.POST['hallName']
+            dis=req.POST['description']
+            price=req.POST['price']
+            data=Halls.objects.create(image1=img1,image2=img2,image3=img3,name=name,dis=dis,price=price)
+            data.save()
+        datas=Halls.objects.all()
+        return render(req,'admin/admin_halls.html',{'halls':datas})
+    else:
+        return redirect(login)
+    
+def adm_photo(req):
+    if 'admin' in req.session:
+        return render(req,'admin/photography.html')
+    else:
+        return redirect(login)
 
 
 # user
 def user_home(req):
-    return render(req,'user/user_home.html')
-
+    if 'user' in req.session:
+        data=Halls.objects.all()[::-1][:3]
+        datas=Decorations.objects.all()[::-1][:3]
+        return render(req,'user/user_home.html',{'halls':data,'decorations':datas})
+    else:
+        return redirect(login)
 # staff
 def staff_home(req):
     return render(req,'staff/staff_home.html')

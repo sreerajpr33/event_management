@@ -11,5 +11,7 @@ urlpatterns = [
     # admin,
     path('adm_catering',views.adm_catering),
     path('adm_dec',views.adm_decr),
+    path('adm_hall',views.adm_halls),
+    path('adm_photo',views.adm_photo),
 ]
 
