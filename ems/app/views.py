@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User,auth
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Contact
+from django.http import JsonResponse
 
 
 # login and reg.
@@ -251,6 +252,13 @@ def dec_details(req,pid):
     if 'user' in req.session:
         data=Decorations.objects.get(pk=pid)
         return render(req,'user/decdetails.html',{'service':data})
+    else:
+        return redirect(login)
+    
+def allfoods(req):
+    if 'user' in req.session:
+        data=Catering.objects.all()
+        return render(req,'user/allFoods.html',{'services':data})
     else:
         return redirect(login)
 
