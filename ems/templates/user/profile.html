@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F8F7ED;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        ul {
+            padding: 0;
+        }
+        ul li {
+            list-style: none;
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+        .btn-outline-dark {
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-container text-center">
+            <h1>Profile</h1>
+            <ul>
+                <li><strong>Name:</strong> {{ user.customer.name }}</li>
+                <li><strong>Email:</strong> {{ user.customer.email }}</li>
+                <li><strong>Address:</strong> {{ user.message }}</li>
+                <li><strong>Phone No:</strong> {{ user.phone }}</li>
+            </ul>
+            <div class="btn-container ">
+                <a href="../" class="btn btn-outline-dark ">BACK</a>
+                <a href="user_editprofile/{{ user.pk }}" class="btn btn-outline-dark">EDIT</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional, for additional components like tooltips or modals) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

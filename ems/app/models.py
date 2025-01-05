@@ -44,6 +44,13 @@ class Staff(models.Model):
     catering=models.ForeignKey(Catering,on_delete=models.CASCADE,null=True)
     decoration=models.ForeignKey(Decorations,on_delete=models.CASCADE,null=True)
     photography=models.ForeignKey(Camera,on_delete=models.CASCADE,null=True)
+
+class Contact(models.Model):
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE,null=True)
+    phone=models.IntegerField()
+    message=models.TextField(null=True)
+    review=models.TextField(null=True)
+
     
 
 

@@ -7,6 +7,8 @@ import re
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import User,auth
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Contact
 
 
 # login and reg.
@@ -177,6 +179,82 @@ def user_home(req):
         return render(req,'user/user_home.html',{'halls':data,'decorations':datas})
     else:
         return redirect(login)
+    
+def user_about(req):
+    if 'user' in req.session:
+        data=Contact.objects.all()[::-1]
+        return render(req,'user/about.html',{'reviews':data})
+    else:
+        return redirect(login)
+
+def user_contact(req):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+
+        if req.method == 'POST':
+            phone = req.POST['phone']   
+            review = req.POST['review']   
+            data=Contact.objects.create(customer=user,phone=phone,review=review)
+            data.save()
+        return render(req, 'user/contact.html', {'user': user})
+    else:
+        return redirect(login)
+    
+def profile(req):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+        data=Contact.objects.get(customer=user)
+        return render(req,'user/profile.html',{'user':data})
+    else:
+        return redirect(login)
+    
+def edit_profile(req, cid):
+    if 'user' in req.session:
+        contact = Contact.objects.get(pk=cid) 
+
+        if req.method == 'POST':
+
+            contact.phone = req.POST.get('phone', contact.phone)
+            contact.message = req.POST.get('address', contact.message)
+            contact.save() 
+
+            return redirect('profile') 
+
+
+        return render(req, 'user/edit_profile.html', {'contact': contact})
+    
+    else:
+        return redirect('login')
+    
+def halldetails(req,pid):
+    if 'user' in req.session:
+        data=Halls.objects.get(pk=pid)
+        return render(req,'user/halldetails.html',{'service':data})
+    else:
+        return redirect(login)
+
+def allhalls(req):
+    if 'user' in req.session:
+        data=Halls.objects.all()
+        return render(req,'user/allhalls.html',{'halls':data})
+    else:
+        return redirect(login)
+    
+def alldec(req):
+    if 'user' in req.session:
+        data=Decorations.objects.all()
+        return render(req,'user/alldec.html',{'decorations':data})
+    else:
+        return redirect(login)
+    
+def dec_details(req,pid):
+    if 'user' in req.session:
+        data=Decorations.objects.get(pk=pid)
+        return render(req,'user/decdetails.html',{'service':data})
+    else:
+        return redirect(login)
+
+
 # staff
 def staff_home(req):
     return render(req,'staff/staff_home.html')

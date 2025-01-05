@@ -96,107 +96,67 @@
   <div class="banner" style="position: sticky; top: 13vh; z-index: -1; height: 50vh; background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "full-shot-smiley-people-posing-wedding.jpg" %}'); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; align-items: center; justify-content: center;">
     <div style="background: rgba(0, 0, 0, 0.6); color: white; text-align: center; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
         <h1>EVENT EASE</h1>
-        <p>Plan with us for unforgettable moments.</p>
+        <p>A B O U T.U S</p>
     </div>
 </div>
+ 
 
 </div>
  <div style="background-color:white; padding-top:3px;">
-  <!-- card1 -->
-   <div class="HALLS container"><H2 class="text-center mt-2">HALLS</H2></div>
-   <div class="container mt-2 d-flex flex-wrap justify-content-center">
-    {% for hall in halls %}
-    <div class="card ms-2 mb-3 hall-card" style="width: 300px; flex-shrink: 0;">
-      <div id="carouselExample{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <a href="details/{{hall.pk}}"><div class="carousel-item active">
-            <img src="{{ hall.image1.url }}" class="d-block w-100" alt="Image 1" style="height: 200px; object-fit: cover;">
-          </div>
-          <div class="carousel-item">
-            <img src="{{ hall.image2.url }}" class="d-block w-100" alt="Image 2" style="height: 200px; object-fit: cover;">
-          </div>
-          <div class="carousel-item">
-            <img src="{{ hall.image3.url }}" class="d-block w-100" alt="Image 3" style="height: 200px; object-fit: cover;">
-          </div>
-        </a>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample{{ forloop.counter }}" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample{{ forloop.counter }}" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="card-body text-center">
-        <h5 class="card-title">hall name : {{ hall.name }}</h5>
-        <p class="card-text">location : {{ hall.dis }}</p>
-        <p class="card-text">price : {{ hall.price }}</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  
+<div class="container text-center"><b>Welcome to Event Ease!</b>
 
-  <div class="text-center my-4 ">
-    <a href="allhalls" class="btn btn-outline-dark viewall">View All</a>
-  </div>
-  <!-- card2 -->
-  <div class="HALLS container">
-    <h2 class="text-center mt-5">DECORATIONS</h2>
-  </div>
-  <div class="container mt-2 d-flex flex-wrap justify-content-center">
-    {% for decoration in decorations %}
-    <div class="card ms-2 mb-3 hall-card" style="width: 300px; flex-shrink: 0;">
-      <div id="decorationCarousel{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <a href="dec_details/{{service.pk}}"><div class="carousel-item active">
-            <img src="{{ decoration.img1.url }}" class="d-block w-100" alt="Image 1" style="height: 200px; object-fit: cover;">
-          </div>
-          <div class="carousel-item">
-            <img src="{{ decoration.img2.url }}" class="d-block w-100" alt="Image 2" style="height: 200px; object-fit: cover;">
-          </div>
-          <div class="carousel-item">
-            <img src="{{ decoration.img3.url }}" class="d-block w-100" alt="Image 3" style="height: 200px; object-fit: cover;">
-          </div></a>
-        </div>
-        <!-- Controls for Unique Carousel -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#decorationCarousel{{ forloop.counter }}" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#decorationCarousel{{ forloop.counter }}" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="card-body text-center">
-        <p class="card-text">Description: {{ decoration.dis }}</p>
-        <p class="card-text">Price: {{ decoration.price }}</p>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  
-  <div class="text-center my-4 ">
-    <a href="alldec" class="btn btn-outline-dark viewall">View All</a>
-  </div>
-  
-<div class="HALLS container"><H2 class="text-center mt-5">FOODS</H2></div>
-
+   <p> At Event Ease, we specialize in simplifying wedding planning, ensuring your big day is nothing short of perfect. Our platform is designed to offer a seamless and personalized experience, catering to all your wedding needs in one place.</p>
     
-    <!-- Custom Text and Button with Shade -->
-      <div class="container catering-div position-relative" style="background-image: url('{% static 'freepik__expand__19829.jpeg' %}'); background-size: cover; background-position: center; height: 400px;">
-        <!-- Shade Overlay -->
-        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>
-        
-        <!-- Centered Content -->
-        <div class="position-absolute top-50 start-50 translate-middle text-center text-light">
-          <h4>Customize Foods</h4>
-          <a href="#" class="btn btn-warning">Get Started</a>
+   <p> With a user-friendly interface and visually captivating design, Event Ease allows you to explore venues, customize decorations, and create tailor-made menus effortlessly. From selecting the perfect hall to curating your dream decor, our comprehensive features empower you to plan your wedding with ease and precision.</p>
+    
+   <p> We believe that every celebration should be memorable and stress-free. That’s why our website combines innovation, elegance, and functionality to bring your vision to life. With Event Ease, planning your wedding is no longer a challenge but an unforgettable journey.</p></div>
+
+<!-- text carousel -->
+ <div class="container mt-5 text-center"> <h4>USER REVIEWS</h4></div>
+ <div id="reviewCarousel" class="carousel slide mt-1" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        {% for review in reviews %}
+        <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                class="{% if forloop.first %}active{% endif %}" 
+                aria-current="{% if forloop.first %}true{% endif %}" 
+                aria-label="Review {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+  
+    <!-- Carousel Inner -->
+    <div class="carousel-inner text-center" style="background-color: #f8f7ed; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+        {% for review in reviews %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <h5>“{{ review.review }}”</h5>
+            <p>- {{ review.customer.name }}</p>
         </div>
-      </div>
+        {% endfor %}
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+  
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  
 
 
  <!-- footer -->

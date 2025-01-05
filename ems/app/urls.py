@@ -13,5 +13,15 @@ urlpatterns = [
     path('adm_dec',views.adm_decr),
     path('adm_hall',views.adm_halls),
     path('adm_photo',views.adm_photo),
+
+    # user,
+    path('user_about',views.user_about),
+    path('user_contact',views.user_contact),
+    path('user_profile',views.profile, name='profile'),
+    path('user_editprofile/<int:cid>/', views.edit_profile, name='edit_profile'),
+    path('details/<pid>',views.halldetails),
+    path('allhalls',views.allhalls),
+    path('alldec',views.alldec),
+    path('dec_details/<pid>',views.dec_details)
 ]
 
