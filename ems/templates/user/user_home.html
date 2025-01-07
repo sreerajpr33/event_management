@@ -70,6 +70,9 @@
           <li class="nav-item ms-3">
             <a class="nav-link" href="user_contact"><b>Contact</b></a>
           </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="buy"><b>Confirm booking</b></a>
+          </li>
         </ul>
         <ul class="navbar-nav me-5">
           <li class="nav-item dropdown">
@@ -151,7 +154,7 @@
     <div class="card ms-2 mb-3 hall-card" style="width: 300px; flex-shrink: 0;">
       <div id="decorationCarousel{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <a href="dec_details/{{service.pk}}"><div class="carousel-item active">
+          <a href="dec_details/{{decoration.pk}}"><div class="carousel-item active">
             <img src="{{ decoration.img1.url }}" class="d-block w-100" alt="Image 1" style="height: 200px; object-fit: cover;">
           </div>
           <div class="carousel-item">

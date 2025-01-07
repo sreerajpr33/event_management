@@ -6,5 +6,7 @@ admin.site.register(Catering)
 admin.site.register(Decorations)
 admin.site.register(Halls)
 admin.site.register(Contact)
+admin.site.register(Bookings)
+admin.site.register(FoodBooking)
 
 # Register your models here.

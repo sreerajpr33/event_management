@@ -51,7 +51,37 @@ class Contact(models.Model):
     message=models.TextField(null=True)
     review=models.TextField(null=True)
 
+class Bookings(models.Model):
+    hall=models.ForeignKey(Halls,on_delete=models.CASCADE,null=True)
+    bookingdate=models.DateField(null=True)
     
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE,null=True)
+    total_price=models.IntegerField()
+    phone=models.IntegerField()
+
+class DecBookings(models.Model):
+    decoration=models.ForeignKey(Decorations,on_delete=models.CASCADE,null=True)
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE,null=True)
+    address=models.TextField(null=True)
+    phone=models.IntegerField()
+    total_price=models.IntegerField()
+    bookingdate=models.DateField(null=True)
+
+class FoodBooking(models.Model):
+    foods = models.ManyToManyField(Catering) 
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2) 
+    booking_date = models.DateField(null=True)
+    time = models.TimeField()
+    address = models.TextField(null=True)
+    phone = models.IntegerField()
+
+    def __str__(self):
+        return f"Booking for {self.customer.name} on {self.booking_date}"
+
+    
+
+
 
 
 

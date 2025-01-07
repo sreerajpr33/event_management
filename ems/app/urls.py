@@ -24,6 +24,11 @@ urlpatterns = [
     path('alldec',views.alldec),
     path('dec_details/<pid>',views.dec_details),
     path('allfoods',views.allfoods),
+    path('bookmark/<pid>',views.bookmark),
+    path('dec_mark/<pid>',views.dec_mark),
+    path('buy',views.buy),
+    
+    
 
 ]
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall Booking</title>
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F7ED;
+            padding: 30px 0;
+        }
+        h1 {
+            text-align: center;
+            color: #4C4C4C;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        .hall-images {
+            margin-bottom: 20px;
+        }
+        .hall-images img {
+            width: 100%;
+            max-width: 20vw;
+            margin: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-group label {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .form-control {
+            font-size: 0.9em;
+        }
+        .btn-outline-dark {
+            width: 100%;
+            font-size: 1em;
+            padding: 8px;
+        }
+        .alert {
+            margin-top: 15px;
+            font-size: 1em;
+        }
+        .skip-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .skip-link a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .skip-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hall Booking</h1>
+
+    <div class="hall-images text-center">
+        <h2>Our Halls</h2>
+        <img src="{{ service.image1.url }}" alt="Hall 1" class="img-thumbnail">
+        <img src="{{ service.image2.url }}" alt="Hall 2" class="img-thumbnail">
+        <img src="{{ service.image3.url }}" alt="Hall 3" class="img-thumbnail">
+    </div>
+
+    <form method="POST" class="mt-2">
+        {% csrf_token %}
+        
+        <div class="form-group mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Enter your phone number" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="bookingDate" class="form-label">Select Date:</label>
+            <input 
+                type="date" 
+                id="bookingDate" 
+                name="bookingDate" 
+                class="form-control" 
+                required 
+                {% if is_date_booked %}
+                    disabled
+                {% endif %}
+            >
+        </div>
+
+        {% if error_message %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <div class="container text-center">
+            <button type="submit" class="btn btn-outline-dark">Submit</button>
+        </div>
+
+        <div class="skip-link">
+            <a href="../alldec">Skip</a>
+        </div>
+    </form>
+
+    <!-- Bootstrap 5.3.0 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

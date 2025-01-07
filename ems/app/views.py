@@ -10,6 +10,7 @@ from django.contrib.auth.models import User,auth
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Contact
 from django.http import JsonResponse
+from datetime import date
 
 
 # login and reg.
@@ -248,17 +249,145 @@ def alldec(req):
     else:
         return redirect(login)
     
-def dec_details(req,pid):
+def dec_details(req, pid):
+    if 'user' in req.session:
+        data = Decorations.objects.get(pk=pid)  # Get decoration details
+        foods = Catering.objects.all()  # Fetch all food options
+
+        if req.method == 'POST':
+            # Extract form data
+            phone = req.POST.get('phone')
+            booking_date = req.POST.get('bookingDate')
+            address = req.POST.get('address')
+            selected_food_id = req.POST.get('selected_food')  # Food selection
+
+            # Retrieve the food item
+            selected_food = Catering.objects.get(pk=selected_food_id)
+
+            # Calculate total price
+            total_price = data.price + selected_food.price
+
+            # Get the logged-in customer
+            customer = Customer.objects.get(user=req.session['user'])
+
+            # Save booking to the database
+            booking = Bookings.objects.create(
+                hall=None,  # Assuming hall selection is separate
+                bookingdate=booking_date,
+                address=address,
+                customer=customer,
+                decoration=data,
+                food=selected_food,
+                total_price=total_price,
+                phone=phone
+            )
+            booking.save()
+
+            return redirect('success_page')  # Redirect after saving the booking
+
+        return render(req, 'user/decdetails.html', {'service': data, 'foods': foods})
+    else:
+        return redirect('login')
+    
+
+
+from datetime import datetime
+
+from datetime import datetime
+from django.shortcuts import render, redirect
+
+def allfoods(req):
+    if 'user' in req.session:
+        if req.method == 'POST':
+            selected_foods = req.POST.getlist('food[]')
+            print(selected_foods)
+            # Get the corresponding food items from the database
+            foods = Catering.objects.filter(id__in=selected_foods)
+            user = Customer.objects.get(email=req.session['user'])
+            total_price = sum(food.price for food in foods)
+            print(total_price)
+            
+            # Remove the commas that make them tuples
+            booking_date = req.POST['bookingDate']
+            time = req.POST['time']
+            address = req.POST['address']
+            phone = req.POST['phone']
+            
+            # Convert string to datetime objects
+            date = datetime.fromisoformat(booking_date)
+            times = datetime.strptime(time, "%H:%M").time()  # Convert time string to a time object
+            
+            # Create a new booking
+            booking = FoodBooking.objects.create(
+                customer=user,
+                total_price=total_price,
+                booking_date=date,
+                time=times,
+                address=address,
+                phone=phone
+            )
+            
+            # Save the booking to the database
+            booking.save()
+            
+            # Redirect to a confirmation or success page
+            return redirect(buy)# Replace 'booking_success' with the actual URL name
+        
+        else:
+            # Retrieve all available foods
+            foods = Catering.objects.all()
+            return render(req, 'user/allFoods.html', {'services': foods})
+    else:
+        return redirect('login')  # Ensure the 'login' view name is correct
+
+    
+def bookmark(req, pid):
+    if 'user' in req.session:
+        data = Halls.objects.get(pk=pid)
+        user = Customer.objects.get(email=req.session['user'])
+
+        if req.method == 'POST':
+            number = req.POST.get('phoneNumber')
+            date = req.POST.get('bookingDate')
+            price = data.price
+
+            if Bookings.objects.filter(hall=data, bookingdate=date).exists():
+                error_message = "The hall is already booked for this date. Please choose another date."
+                return render(req, 'user/bookmark.html', {'service': data, 'error_message': error_message})
+
+            bookings = Bookings.objects.create(
+                hall=data,
+                bookingdate=date,
+                phone=number,
+                customer=user,
+                total_price=price
+            )
+            bookings.save()
+
+        return render(req, 'user/bookmark.html', {'service': data})
+    else:
+        return redirect('login')
+        
+
+    
+def dec_mark(req,pid):
     if 'user' in req.session:
         data=Decorations.objects.get(pk=pid)
-        return render(req,'user/decdetails.html',{'service':data})
+        user = Customer.objects.get(email=req.session['user'])
+        if req.method == 'POST':
+            number = req.POST.get('phoneNumber')
+            date = req.POST.get('bookingDate')
+            address=req.POST.get('address')
+            price = data.price
+            bookings=DecBookings.objects.create(decoration=data,bookingdate=date,address=address,phone=number,total_price=price,customer=user)
+            bookings.save()
+        return render(req,'user/dec_mark.html',{'service':data})
     else:
         return redirect(login)
     
-def allfoods(req):
+def buy(req):
     if 'user' in req.session:
-        data=Catering.objects.all()
-        return render(req,'user/allFoods.html',{'services':data})
+        return render(req,'user/buy.html')
     else:
         return redirect(login)
 
