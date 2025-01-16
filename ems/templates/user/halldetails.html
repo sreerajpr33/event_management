@@ -54,16 +54,16 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item ms-3">
-                <a class="nav-link active" aria-current="page" href="usr_home"><b>Home</b></a>
+                <a class="nav-link active" aria-current="page" href="../usr_home"><b>Home</b></a>
               </li>
               <li class="nav-item ms-3">
-                <a class="nav-link" href="user_about"><b>About</b></a>
+                <a class="nav-link" href="../user_about"><b>About</b></a>
               </li>
               <li class="nav-item ms-3">
-                <a class="nav-link" href="user_contact"><b>Contact</b></a>
+                <a class="nav-link" href="../user_contact"><b>Contact</b></a>
               </li>
               <li class="nav-item ms-3">
-                <a class="nav-link" href="buy"><b>Confirm booking</b></a>
+                <a class="nav-link" href="../buy"><b>Confirm booking</b></a>
               </li>
             </ul>
             <ul class="navbar-nav me-5">
@@ -72,8 +72,8 @@
                   <i class="bi bi-person-circle"></i> <b>User</b>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li>
-                  <li><a class="dropdown-item" href="#profile"><i class="bi bi-calendar-check"></i> Bookings</a></li>
+                  {% comment %} <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li> {% endcomment %}
+                  <li><a class="dropdown-item" href="../allbookings"><i class="bi bi-calendar-check"></i> Bookings</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                 </ul>

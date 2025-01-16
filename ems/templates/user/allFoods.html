@@ -47,97 +47,99 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
-          <!-- Logo -->
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'logo.png' %}" alt="Logo">
-          </a>
-          <!-- Toggler for Mobile -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- Navbar Links -->
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item ms-3">
-                <a class="nav-link active" aria-current="page" href="usr_home"><b>Home</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="user_about"><b>About</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="user_contact"><b>Contact</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="buy"><b>Confirm booking</b></a>
-              </li>
-            </ul>
-            <ul class="navbar-nav me-5">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person-circle"></i> <b>User</b>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li>
-                  <li><a class="dropdown-item" href="#profile"><i class="bi bi-calendar-check"></i> Bookings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'logo.png' %}" alt="Logo">
+            </a>
+            <!-- Toggler for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item ms-3">
+                        <a class="nav-link active" aria-current="page" href="usr_home"><b>Home</b></a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" href="user_about"><b>About</b></a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" href="user_contact"><b>Contact</b></a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link" href="buy"><b>Confirm booking</b></a>
+                    </li>
                 </ul>
-              </li>
-            </ul>
-          </div>
+                <ul class="navbar-nav me-5">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> <b>User</b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            {% comment %} <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li> {% endcomment %}
+                            <li><a class="dropdown-item" href="allbookings"><i class="bi bi-calendar-check"></i> Bookings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </nav>
-    
+    </nav>
 
     <!-- Food Booking Form -->
     <div class="form-container">
         <h2>Food Booking Form</h2>
         <form method="POST" action="">
-          {% csrf_token %}
-          <div class="mb-3">
-              <label class="form-label">Select Foods</label>
-              <table class="table table-bordered text-center">
-                  <thead class="table-dark">
-                      <tr>
-                          <th>Select</th>
-                          <th>Food Item</th>
-                          <th>Additional Details</th>
-                          <th>Price (₹)</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {% for food in services %}
-                      <tr>
-                          <td>
-                              <input type="checkbox" name="food[]" value="{{ food.id }}">
-                          </td>
-                          <td>{{ food.foods }}</td>
-                          <td>{{ food.dis }}</td>
-                          <td>{{ food.price }}</td>
-                      </tr>
-                      {% endfor %}
-                  </tbody>
-              </table>
-          </div>
-          <div class="mb-3">
-              <label for="bookingDate" class="form-label">Booking Date</label>
-              <input type="date" id="bookingDate" name="bookingDate" class="form-control" required>
-          </div>
-          <div class="mb-3">
-              <label for="time" class="form-label">Time</label>
-              <input type="time" id="time" name="time" class="form-control" required>
-          </div>
-          <div class="mb-3">
-              <label for="address" class="form-label">Address</label>
-              <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
-          </div>
-          <div class="mb-3">
-              <label for="phone" class="form-label">Phone</label>
-              <input type="text" id="phone" name="phone" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
-      </form>
-      
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Select Foods</label>
+                <table class="table table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Select</th>
+                            <th>Food Item</th>
+                            <th>Additional Details</th>
+                            <th>Price (₹)</th>
+                            <th>Quantity (No. of People)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for food in services %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="food[]" value="{{ food.id }}">
+                            </td>
+                            <td>{{ food.foods }}</td>
+                            <td>{{ food.dis }}</td>
+                            <td>{{ food.price }}</td>
+                            <td>
+                                <input type="number" name="quantity_{{ food.id }}" value="1" min="1" class="form-control" required>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mb-3">
+                <label for="bookingDate" class="form-label">Booking Date</label>
+                <input type="date" id="bookingDate" name="bookingDate" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Time</label>
+                <input type="time" id="time" name="time" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" id="phone" name="phone" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit Booking</button>
+        </form>
     </div>
 
     <!-- Footer -->

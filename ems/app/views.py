@@ -11,13 +11,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Contact
 from django.http import JsonResponse
 from datetime import date
+from datetime import datetime
+from django.db import transaction
+from django.utils.timezone import now
 
 
 # login and reg.
 
 
-def login(req):
-    return render(req,'login.html')
+# def login(req):
+#     return render(req,'login.html')
 
 
 
@@ -171,6 +174,13 @@ def adm_photo(req):
         return render(req,'admin/photography.html')
     else:
         return redirect(login)
+    
+def adm_bookings(req):
+    if 'admin'in req.session:
+        bookings=PurchaseHistory.objects.all()
+        return render(req,'admin/viewbooking.html',{'bookings':bookings})
+    else:
+        return redirect(login)
 
 
 # user
@@ -291,21 +301,26 @@ def dec_details(req, pid):
     
 
 
-from datetime import datetime
 
-from datetime import datetime
-from django.shortcuts import render, redirect
+
+
 
 def allfoods(req):
     if 'user' in req.session:
         if req.method == 'POST':
-            selected_foods = req.POST.getlist('food[]')
-            print(selected_foods)
+            selected_foods = req.POST.getlist('food[]')  # List of selected food IDs
+            quantities = {food_id: int(req.POST.get(f'quantity_{food_id}', 1)) for food_id in selected_foods}  # Get quantities for each selected food
+            
             # Get the corresponding food items from the database
             foods = Catering.objects.filter(id__in=selected_foods)
+            
             user = Customer.objects.get(email=req.session['user'])
-            total_price = sum(food.price for food in foods)
-            print(total_price)
+            
+            # Calculate total price by multiplying food price with quantity
+            total_price = sum(food.price * quantities[str(food.id)] for food in foods)
+            
+            # Calculate the total quantity
+            total_qty = sum(quantities[str(food.id)] for food in foods)
             
             # Remove the commas that make them tuples
             booking_date = req.POST['bookingDate']
@@ -324,14 +339,15 @@ def allfoods(req):
                 booking_date=date,
                 time=times,
                 address=address,
-                phone=phone
+                phone=phone,
+                qty=total_qty  # Store the total quantity
             )
             
             # Save the booking to the database
             booking.save()
             
             # Redirect to a confirmation or success page
-            return redirect(buy)# Replace 'booking_success' with the actual URL name
+            return redirect(buy)  # Replace 'buy' with the actual URL name
         
         else:
             # Retrieve all available foods
@@ -340,21 +356,24 @@ def allfoods(req):
     else:
         return redirect('login')  # Ensure the 'login' view name is correct
 
-    
+
 def bookmark(req, pid):
     if 'user' in req.session:
-        data = Halls.objects.get(pk=pid)
-        user = Customer.objects.get(email=req.session['user'])
+        data = Halls.objects.get(pk=pid)  # Get the hall object by ID
+        user = Customer.objects.get(email=req.session['user'])  # Get the customer based on session email
 
         if req.method == 'POST':
             number = req.POST.get('phoneNumber')
             date = req.POST.get('bookingDate')
             price = data.price
 
-            if Bookings.objects.filter(hall=data, bookingdate=date).exists():
+            # Check if the hall is already booked for the given date
+            if PurchaseHistory.objects.filter(hall_name=data.name, purchase_date=date).exists():
+                # If a booking exists with the same hall name and date, show an error message
                 error_message = "The hall is already booked for this date. Please choose another date."
                 return render(req, 'user/bookmark.html', {'service': data, 'error_message': error_message})
 
+            # Proceed to create a booking if the hall is not booked
             bookings = Bookings.objects.create(
                 hall=data,
                 bookingdate=date,
@@ -363,10 +382,13 @@ def bookmark(req, pid):
                 total_price=price
             )
             bookings.save()
+            return redirect(alldec)  # Redirect after booking is successful
 
         return render(req, 'user/bookmark.html', {'service': data})
     else:
-        return redirect('login')
+        return redirect(login)
+
+
         
 
     
@@ -381,17 +403,156 @@ def dec_mark(req,pid):
             price = data.price
             bookings=DecBookings.objects.create(decoration=data,bookingdate=date,address=address,phone=number,total_price=price,customer=user)
             bookings.save()
+            return redirect(allfoods)
         return render(req,'user/dec_mark.html',{'service':data})
     else:
         return redirect(login)
     
+
+
 def buy(req):
     if 'user' in req.session:
-        return render(req,'user/buy.html')
+        user = Customer.objects.get(email=req.session['user'])
+        
+        # Fetch the last added booking for each type
+        latest_hall = Bookings.objects.filter(customer=user).order_by('-id').first() if Bookings.objects.filter(customer=user).exists() else None
+        latest_decoration = DecBookings.objects.filter(customer=user).order_by('-id').first() if DecBookings.objects.filter(customer=user).exists() else None
+        latest_food = FoodBooking.objects.filter(customer=user).order_by('-id').first() if FoodBooking.objects.filter(customer=user).exists() else None
+        
+        # Calculate total prices using only the last added bookings
+        halls_total = latest_hall.total_price if latest_hall else 0
+        dec_total = latest_decoration.total_price if latest_decoration else 0
+        food_total = latest_food.total_price if latest_food else 0
+
+        # Debugging: print out the totals for each category
+        print(f"Last Added Hall Total: {halls_total}")
+        print(f"Last Added Decoration Total: {dec_total}")
+        print(f"Last Added Food Total: {food_total}")
+        
+        # Calculate grand total from the last added prices only
+        grand_total = halls_total + dec_total + food_total
+        
+        # Debugging: print the calculated grand total
+        print(f"Calculated Grand Total: {grand_total}")
+        
+        # Pass all data to the template
+        context = {
+            'halls': latest_hall,  # Passing only the last added hall booking
+            'dec': latest_decoration,  # Passing only the last added decoration booking
+            'food': latest_food,  # Passing only the last added food booking
+            'grand_total': grand_total,
+            'latest_hall': latest_hall,
+            'latest_decoration': latest_decoration,
+            'latest_food': latest_food,
+        }
+        
+        return render(req, 'user/buy.html', context)
+    else:
+        return redirect('login')  # Ensure 'login' is correctly referenced as the view name
+
+def delete_booking(req, booking_id):
+    
+    return redirect('your_booking_page')
+
+def delete_hall_booking(req, booking_id):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+        booking = get_object_or_404(Bookings, id=booking_id, customer=user)
+        booking.delete()
+        return redirect(buy)  # Replace with the correct URL name for the booking page
     else:
         return redirect(login)
 
+# View to delete a decoration booking
+def delete_dec_booking(req, booking_id):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+        booking = get_object_or_404(DecBookings, id=booking_id, customer=user)
+        booking.delete()
+        return redirect(buy)  # Replace with the correct URL name for the booking page
+    else:
+        return redirect(login)
+
+# View to delete a food booking
+def delete_food_booking(req, booking_id):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+        booking = get_object_or_404(FoodBooking, id=booking_id, customer=user)
+        booking.delete()
+        return redirect(buy)  # Replace with the correct URL name for the booking page
+    else:
+        return redirect(login)
 
 # staff
 def staff_home(req):
     return render(req,'staff/staff_home.html')
+
+def buynow(req):
+    if 'user' in req.session:
+        user = Customer.objects.get(email=req.session['user'])
+        
+        # Fetch the latest bookings for each type
+        latest_hall = Bookings.objects.filter(customer=user).order_by('-id').first()
+        latest_decoration = DecBookings.objects.filter(customer=user).order_by('-id').first()
+        latest_food = FoodBooking.objects.filter(customer=user).order_by('-id').first()
+        
+        # Calculate the total prices
+        halls_total = latest_hall.total_price if latest_hall else 0
+        dec_total = latest_decoration.total_price if latest_decoration else 0
+        food_total = latest_food.total_price if latest_food else 0
+        grand_total = halls_total + dec_total + food_total
+
+        # Consolidate food item names
+        food_items = (
+            ", ".join([food.name for food in latest_food.foods.all()])
+            if latest_food else ""
+        )
+        
+        # Address and phone details
+        address = latest_decoration.address if latest_decoration else latest_food.address if latest_food else None
+        phone = latest_decoration.phone if latest_decoration else latest_food.phone if latest_food else None
+
+        # Save the consolidated data in the new model
+        with transaction.atomic():
+            PurchaseHistory.objects.create(
+                customer=user,
+                hall_name=latest_hall.hall.name if latest_hall else None,
+                decoration_name=latest_decoration.decoration.dis if latest_decoration else None,
+                food_items=food_items,
+                grand_total=grand_total,
+                address=address,
+                phone=phone,
+            )
+
+            # Clear the existing bookings
+            if latest_hall:
+                latest_hall.delete()
+            if latest_decoration:
+                latest_decoration.delete()
+            if latest_food:
+                latest_food.delete()
+        
+        return render(req, 'user/success.html', {'grand_total': grand_total})
+    else:
+        return redirect('login')
+
+def all_bookings(req):
+    if 'user' in req.session:  # Check if the user is logged in
+        try:
+            user = Customer.objects.get(email=req.session['user'])
+
+            # Fetch all bookings for the logged-in user
+            bookings = PurchaseHistory.objects.filter(customer=user).order_by('-id')
+
+            context = {
+                'bookings': bookings,  # Pass all bookings to the template
+            }
+            return render(req, 'user/allbookings.html', context)
+
+        except Customer.DoesNotExist:
+            return redirect('login')  # Redirect to login if customer not found
+    else:
+        return redirect('login')  # Redirect to login if not logged in
+    
+
+

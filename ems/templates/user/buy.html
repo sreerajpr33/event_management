@@ -1,195 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {%load static%}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Summary</title>
-    <!-- Bootstrap CSS -->
+    <title>Your Bookings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .navbar-brand img {
-            height: 100%; /* Match the logo's height to the navbar */
-            max-height: 60px; /* Set a reasonable maximum height */
-          }
-          .navbar {
-            min-height: 60px; /* Ensure the navbar has enough height */
-            background-color: #F8F7ED;
-          }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f8fb;
+            background-color: #f8f9fa;
             color: #333;
         }
-
-        .container {
-            max-width: 900px;
-            margin-top: 50px;
+        h1 {
+            color: #007bff;
+            font-size: 2.8rem;
+            font-weight: 700;
         }
-
-        .section {
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-body {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
         }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        .card-body p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
         }
-
-        .section h3 {
-            color: #453512;
+        h3 {
+            color: #495057;
             font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-weight: 600;
+            margin-top: 30px;
         }
-
-        .form-label {
-            font-weight: bold;
-            color: #555;
-        }
-
-        .section .price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #28a745;
-        }
-
-        .section .price span {
-            font-size: 1.1rem;
-            font-weight: normal;
-            color: #aaa;
-        }
-
         .grand-total {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: #28a745;
-        }
-
-        .btn-pay {
-            background-color: #28a745;
-            color: white;
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-pay:hover {
-            background-color: #218838;
-        }
-
-        .input-quantity {
-            width: 100px;
-            margin-top: 1rem;
-        }
-
-        footer {
-            background-color: #453512;
-            color: #fff;
-            padding: 1rem 0;
             text-align: center;
-            position: fixed;
+            margin-top: 30px;
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-buy:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 50px;
+            position: relative;
             bottom: 0;
             width: 100%;
+        }
+        .list-group-item {
+            border: none;
+            font-size: 1rem;
+        }
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: white;
+            background-color: #dc3545;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container-fluid">
-          <!-- Logo -->
-          <a class="navbar-brand" href="#">
-            <img src="{% static 'logo.png' %}" alt="Logo">
-          </a>
-          <!-- Toggler for Mobile -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- Navbar Links -->
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item ms-3">
-                <a class="nav-link active" aria-current="page" href="usr_home"><b>Home</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="user_about"><b>About</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="user_contact"><b>Contact</b></a>
-              </li>
-              <li class="nav-item ms-3">
-                <a class="nav-link" href="buy"><b>Confirm booking</b></a>
-              </li>
-            </ul>
-            <ul class="navbar-nav me-5">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-person-circle"></i> <b>User</b>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li>
-                  <li><a class="dropdown-item" href="#profile"><i class="bi bi-calendar-check"></i> Bookings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <div class="container mt-5">
+        <h1 class="text-center">Your Bookings</h1>
 
-    <div class="container " style="margin-bottom:13vh;">
-        <!-- Hall Section -->
-        <div class="section">
-            <h3>Hall Booking</h3>
-            <p><strong>Hall Name:</strong> {{ hall_name }}</p>
-            <p class="price"><strong>Price:</strong> ₹{{ hall_price }}</p>
+        <!-- Latest Hall Booking -->
+        <div class="mt-4">
+            <h3>Latest Hall Booking</h3>
+            {% if latest_hall %}
+                <div class="card">
+                    <div class="card-body position-relative">
+                        <a href="{% url 'delete_hall_booking' latest_hall.id %}" class="btn-delete">Delete</a>
+                        <p><strong>Hall Name:</strong> {{ latest_hall.hall.name }}</p>
+                        <p><strong>Booking Date:</strong> {{ latest_hall.bookingdate }}</p>
+                        <p><strong>Price:</strong> ₹{{ latest_hall.total_price }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p>No recent hall booking found.</p>
+            {% endif %}
         </div>
 
-        <!-- Decoration Section -->
-        <div class="section">
-            <h3>Decoration</h3>
-            <p><strong>Decoration Type:</strong> {{ decoration_type }}</p>
-            <p class="price"><strong>Price:</strong> ₹{{ decoration_price }}</p>
+        <!-- Latest Decoration Booking -->
+        <div class="mt-4">
+            <h3>Latest Decoration Booking</h3>
+            {% if latest_decoration %}
+                <div class="card">
+                    <div class="card-body position-relative">
+                        <a href="{% url 'delete_dec_booking' latest_decoration.id %}" class="btn-delete">Delete</a>
+                        <p><strong>Decoration Type:</strong> {{ latest_decoration.decoration.name }}</p>
+                        <p><strong>Booking Date:</strong> {{ latest_decoration.bookingdate }}</p>
+                        <p><strong>Price:</strong> ₹{{ latest_decoration.total_price }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p>No recent decoration booking found.</p>
+            {% endif %}
         </div>
 
-        <!-- Foods Section -->
-        <div class="section">
-            <h3>Foods</h3>
-            <p><strong>Food Item:</strong> {{ food_name }}</p>
-            <p><strong>Price per Head:</strong> ₹{{ food_price }}</p>
-            <form method="post" action="">
-                {% csrf_token %}
-                <label for="foodQuantity" class="form-label">Quantity per Head</label>
-                <input type="number" id="foodQuantity" class="form-control input-quantity" name="quantity" value="1" min="1" required>
-                <button type="submit" class="btn btn-primary mt-3">Update Total</button>
-            </form>
+        <!-- Latest Food Booking -->
+        <div class="mt-4">
+            <h3>Latest Food Booking</h3>
+            {% if latest_food %}
+                <div class="card">
+                    <div class="card-body position-relative">
+                        <a href="{% url 'delete_food_booking' latest_food.id %}" class="btn-delete">Delete</a>
+                        <p><strong>Booking Date:</strong> {{ latest_food.booking_date }}</p>
+                        <ul class="list-group">
+                            {% for food_item in latest_food.foods.all %}
+                                <li class="list-group-item">{{ food_item.name }} - ₹{{ food_item.price }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p><strong>Total Price:</strong> ₹{{ latest_food.total_price }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p>No recent food booking found.</p>
+            {% endif %}
         </div>
 
-        <!-- Grand Total Section -->
-        <div class="section ">
+        <!-- Grand Total -->
+        <div class="mt-4">
             <p class="grand-total">Grand Total: ₹{{ grand_total }}</p>
+        </div>
+        
+        <!-- Buy Button -->
+        <div class="mt-4">
             <form method="post" action="">
                 {% csrf_token %}
-                <button class="btn-pay" type="submit">Pay Now</button>
+                <a href="buynow" class="btn btn-outline-success w-100"><b>Buy Now</b></a>
             </form>
         </div>
+        <a href="../" class="btn btn-outline-dark w-50 mt-3"><b>Back</b></a>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Event Management. All rights reserved.</p>
-    </footer>
-
-    <!-- Bootstrap Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -80,8 +80,8 @@
               <i class="bi bi-person-circle"></i> <b>User</b>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li>
-              <li><a class="dropdown-item" href="#profile"><i class="bi bi-calendar-check"></i> Bookings</a></li>
+              {% comment %} <li><a class="dropdown-item" href="user_profile"><i class="bi bi-person"></i> Profile</a></li> {% endcomment %}
+              <li><a class="dropdown-item" href="allbookings"><i class="bi bi-calendar-check"></i> Bookings</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
             </ul>
@@ -224,10 +224,10 @@
 
     <!-- Footer Links -->
     <div class="mb-3">
-      <a href="#about" class="text-white me-3" style="text-decoration: none;">About</a>
+      <a href="user_about" class="text-white me-3" style="text-decoration: none;">About</a>
       <a href="#services" class="text-white me-3" style="text-decoration: none;">Services</a>
       <a href="#events" class="text-white me-3" style="text-decoration: none;">Events</a>
-      <a href="#contact" class="text-white" style="text-decoration: none;">Contact</a>
+      <a href="user_contact" class="text-white" style="text-decoration: none;">Contact</a>
     </div>
     <!-- Copyright -->
     <div>

@@ -13,6 +13,7 @@ urlpatterns = [
     path('adm_dec',views.adm_decr),
     path('adm_hall',views.adm_halls),
     path('adm_photo',views.adm_photo),
+    path('adm_book',views.adm_bookings),
 
     # user,
     path('user_about',views.user_about),
@@ -27,8 +28,11 @@ urlpatterns = [
     path('bookmark/<pid>',views.bookmark),
     path('dec_mark/<pid>',views.dec_mark),
     path('buy',views.buy),
-    
-    
-
-]
+    path('delete_booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),
+    path('delete-hall/<int:booking_id>/', views.delete_hall_booking, name='delete_hall_booking'),
+    path('delete-dec/<int:booking_id>/', views.delete_dec_booking, name='delete_dec_booking'),
+    path('delete-food/<int:booking_id>/', views.delete_food_booking, name='delete_food_booking'),
+    path('buynow', views.buynow, name='buynow'),
+    path('allbookings/', views.all_bookings, name='all_bookings'),  
+    ]
 

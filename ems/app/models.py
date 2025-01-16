@@ -75,11 +75,22 @@ class FoodBooking(models.Model):
     time = models.TimeField()
     address = models.TextField(null=True)
     phone = models.IntegerField()
+    qty=models.IntegerField()
 
     def __str__(self):
         return f"Booking for {self.customer.name} on {self.booking_date}"
 
-    
+class PurchaseHistory(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    hall_name = models.CharField(max_length=255, null=True, blank=True)
+    decoration_name = models.CharField(max_length=255, null=True, blank=True)
+    food_items = models.TextField(null=True, blank=True)  # Store food names as a comma-separated string
+    grand_total = models.DecimalField(max_digits=12, decimal_places=2)
+    purchase_date = models.DateField(auto_now_add=True)
+    purchase_time = models.TimeField(auto_now_add=True)
+    address = models.TextField(null=True, blank=True)
+    phone = models.IntegerField(null=True, blank=True)
+
 
 
 

@@ -8,5 +8,7 @@ admin.site.register(Halls)
 admin.site.register(Contact)
 admin.site.register(Bookings)
 admin.site.register(FoodBooking)
+admin.site.register(PurchaseHistory)
+
 
 # Register your models here.
